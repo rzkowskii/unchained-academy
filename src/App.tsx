@@ -1,25 +1,26 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { Suspense, lazy, useState, useEffect } from 'react';
+import { Suspense, lazy, useState, useEffect, ReactNode } from 'react';
 import { Loader2 } from 'lucide-react';
 import Layout from './components/layout/Layout';
+import { modules } from './lessons/config';
 
-// Lazy load components
+// Lazy load HomePage
 const HomePage = lazy(() => import('./pages/HomePage'));
-const Module1Lesson1 = lazy(() => import('./components/lessons/Module1Lesson1'));
-const Module1Lesson2 = lazy(() => import('./components/lessons/Module1Lesson2'));
-const Module1Lesson3 = lazy(() => import('./components/lessons/Module1Lesson3'));
-const Module1Lesson4 = lazy(() => import('./components/lessons/Module1Lesson4'));
+
+interface ErrorBoundaryProps {
+  children: ReactNode;
+}
 
 // Error Boundary Component
-function ErrorBoundary({ children }) {
-  const [hasError, setHasError] = useState(false);
-  const [error, setError] = useState(null);
+function ErrorBoundary({ children }: ErrorBoundaryProps) {
+  const [hasError, setHasError] = useState<boolean>(false);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    const handleError = (error) => {
+    const handleError = (error: ErrorEvent) => {
       console.error('Application Error:', error);
       setHasError(true);
-      setError(error);
+      setError(error.error);
     };
 
     window.addEventListener('error', handleError);
@@ -43,7 +44,7 @@ function ErrorBoundary({ children }) {
     );
   }
 
-  return children;
+  return <>{children}</>;
 }
 
 // Loading Component
@@ -85,31 +86,47 @@ function ComingSoon() {
   );
 }
 
-// Main App Content Component
 function AppContent() {
   return (
-    <Layout>
-      <Suspense fallback={<LoadingSpinner />}>
-        <Routes>
+    <Suspense fallback={<LoadingSpinner />}>
+      <Routes>
+        <Route element={<Layout />}>
           <Route path="/" element={<HomePage />} />
-          <Route path="/module/1/lesson/1" element={<Module1Lesson1 />} />
-          <Route path="/module/1/lesson/2" element={<Module1Lesson2 />} />
-          <Route path="/module/1/lesson/3" element={<Module1Lesson3 />} />
-          <Route path="/module/1/lesson/4" element={<Module1Lesson4 />} />
-          <Route path="/module/1/lesson/:lessonId" element={<ComingSoon />} />
+          
+          {/* Dynamically generate routes from module configuration */}
+          {modules.map(module => 
+            module.lessons.map(lesson => (
+              <Route
+                key={lesson.path}
+                path={lesson.path}
+                element={
+                  lesson.unlocked ? (
+                    <Suspense fallback={<LoadingSpinner />}>
+                      <lesson.component />
+                    </Suspense>
+                  ) : (
+                    <Navigate to="/" replace />
+                  )
+                }
+              />
+            ))
+          )}
+
+          {/* Catch-all route for modules without specific lessons */}
           <Route path="/module/:moduleId/*" element={<ComingSoon />} />
-          <Route path="/404" element={<NotFound />} />
-          <Route path="*" element={<Navigate to="/404" replace />} />
-        </Routes>
-      </Suspense>
-    </Layout>
+        </Route>
+
+        {/* Standalone routes */}
+        <Route path="/404" element={<NotFound />} />
+        <Route path="*" element={<Navigate to="/404" replace />} />
+      </Routes>
+    </Suspense>
   );
 }
 
-// Main App Component
 export default function App() {
   return (
-    <Router basename="/unchained-academy">
+    <Router>
       <ErrorBoundary>
         <AppContent />
       </ErrorBoundary>

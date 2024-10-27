@@ -25,10 +25,6 @@ export interface Module {
 const createLessonPath = (moduleId: string, lessonId: string) => 
   `/module/${moduleId}/lesson/${lessonId}`;
 
-// Helper function to create lesson IDs
-const createLessonId = (moduleIndex: number, lessonIndex: number) =>
-  `${moduleIndex + 1}.${lessonIndex + 1}`;
-
 // Course Configuration
 export const modules: Module[] = [
   {

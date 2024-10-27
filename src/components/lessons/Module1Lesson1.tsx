@@ -12,7 +12,7 @@ const lessonMetadata = {
   ]
 };
 
-const Module1Lesson1 = () => {
+const Module1Lesson1: React.FC = () => {
   return (
     <LessonContent metadata={lessonMetadata}>
       <section id="introduction" className="mb-12">

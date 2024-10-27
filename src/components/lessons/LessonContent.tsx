@@ -1,41 +1,60 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, ReactNode } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Clock, BookOpen, CheckCircle, AlertCircle } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Clock, BookOpen, CheckCircle } from 'lucide-react';
 
-export default function LessonContent({ children, metadata }) {
-  const [progress, setProgress] = useState(0);
-  const [isComplete, setIsComplete] = useState(false);
-  const { moduleId, lessonId } = useParams();
+interface LessonMetadata {
+  title: string;
+  duration: number;
+  objectives: string[];
+}
+
+interface LessonContentProps {
+  children: ReactNode;
+  metadata: LessonMetadata;
+}
+
+export default function LessonContent({ children, metadata }: LessonContentProps) {
+  const [progress, setProgress] = useState<number>(0);
+  const [isComplete, setIsComplete] = useState<boolean>(false);
+  const { moduleId, lessonId } = useParams<{ moduleId: string; lessonId: string }>();
   const navigate = useNavigate();
   
   // Load saved progress from localStorage
   useEffect(() => {
-    const savedProgress = localStorage.getItem(`progress-${moduleId}-${lessonId}`);
-    if (savedProgress) {
-      setProgress(parseInt(savedProgress));
-      setIsComplete(localStorage.getItem(`complete-${moduleId}-${lessonId}`) === 'true');
+    if (moduleId && lessonId) {
+      const savedProgress = localStorage.getItem(`progress-${moduleId}-${lessonId}`);
+      if (savedProgress) {
+        setProgress(parseInt(savedProgress));
+        setIsComplete(localStorage.getItem(`complete-${moduleId}-${lessonId}`) === 'true');
+      }
     }
   }, [moduleId, lessonId]);
 
   // Save progress to localStorage
-  const updateProgress = (newProgress) => {
-    setProgress(newProgress);
-    localStorage.setItem(`progress-${moduleId}-${lessonId}`, newProgress.toString());
-    if (newProgress === 100) {
-      setIsComplete(true);
-      localStorage.setItem(`complete-${moduleId}-${lessonId}`, 'true');
+  const updateProgress = (newProgress: number) => {
+    if (moduleId && lessonId) {
+      setProgress(newProgress);
+      localStorage.setItem(`progress-${moduleId}-${lessonId}`, newProgress.toString());
+      if (newProgress === 100) {
+        setIsComplete(true);
+        localStorage.setItem(`complete-${moduleId}-${lessonId}`, 'true');
+      }
     }
   };
 
   const nextLesson = () => {
-    const nextLessonId = parseInt(lessonId) + 1;
-    navigate(`/module/${moduleId}/lesson/${nextLessonId}`);
+    if (moduleId && lessonId) {
+      const nextLessonId = parseInt(lessonId) + 1;
+      navigate(`/module/${moduleId}/lesson/${nextLessonId}`);
+    }
   };
 
   const prevLesson = () => {
-    const prevLessonId = parseInt(lessonId) - 1;
-    if (prevLessonId > 0) {
-      navigate(`/module/${moduleId}/lesson/${prevLessonId}`);
+    if (moduleId && lessonId) {
+      const prevLessonId = parseInt(lessonId) - 1;
+      if (prevLessonId > 0) {
+        navigate(`/module/${moduleId}/lesson/${prevLessonId}`);
+      }
     }
   };
 
@@ -92,8 +111,8 @@ export default function LessonContent({ children, metadata }) {
             style={{ width: `${progress}%` }}
             role="progressbar"
             aria-valuenow={progress}
-            aria-valuemin="0"
-            aria-valuemax="100"
+            aria-valuemin={0}
+            aria-valuemax={100}
           />
         </div>
 
@@ -123,8 +142,8 @@ export default function LessonContent({ children, metadata }) {
         <div className="flex justify-between items-center">
           <button
             onClick={prevLesson}
-            className={`btn btn-secondary flex items-center ${parseInt(lessonId) === 1 ? 'invisible' : ''}`}
-            disabled={parseInt(lessonId) === 1}
+            className={`btn btn-secondary flex items-center ${parseInt(lessonId || '1') === 1 ? 'invisible' : ''}`}
+            disabled={parseInt(lessonId || '1') === 1}
           >
             <ChevronLeft className="w-4 h-4 mr-2" />
             Previous Lesson
@@ -152,8 +171,8 @@ export default function LessonContent({ children, metadata }) {
         <div className="flex justify-between p-4">
           <button
             onClick={prevLesson}
-            className={`btn btn-secondary btn-sm ${parseInt(lessonId) === 1 ? 'invisible' : ''}`}
-            disabled={parseInt(lessonId) === 1}
+            className={`btn btn-secondary btn-sm ${parseInt(lessonId || '1') === 1 ? 'invisible' : ''}`}
+            disabled={parseInt(lessonId || '1') === 1}
           >
             <ChevronLeft className="w-4 h-4" />
           </button>

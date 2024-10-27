@@ -1,58 +1,17 @@
 import { Link } from 'react-router-dom';
-import { BookOpen, Server, Network, Shield, Code, ArrowRight, CheckCircle } from 'lucide-react';
+import { ArrowRight, CheckCircle } from 'lucide-react';
+import { modules, getTotalLessonsCount, getCompletedLessonsCount } from '../lessons/config';
 
-const modules = [
-  {
-    title: 'Introduction to Kenshi and Unchained',
-    description: 'Learn the fundamentals of the Kenshi ecosystem and Unchained network architecture.',
-    icon: BookOpen,
-    lessons: 4,
-    completedLessons: 1,
-    path: '/module/1/lesson/1',
-    status: 'in-progress'
-  },
-  {
-    title: 'Setting Up and Running Nodes',
-    description: 'Master the process of setting up and maintaining Unchained network nodes.',
-    icon: Server,
-    lessons: 4,
-    completedLessons: 0,
-    path: '/module/2/lesson/1',
-    status: 'locked'
-  },
-  {
-    title: 'Understanding Node Types',
-    description: 'Deep dive into different node types and their roles in the network.',
-    icon: Network,
-    lessons: 4,
-    completedLessons: 0,
-    path: '/module/3/lesson/1',
-    status: 'locked'
-  },
-  {
-    title: 'Data Validation in Unchained',
-    description: 'Learn about data validation mechanisms and BLS12-381 implementation.',
-    icon: Shield,
-    lessons: 4,
-    completedLessons: 0,
-    path: '/module/4/lesson/1',
-    status: 'locked'
-  },
-  {
-    title: 'Leveraging Unchained APIs',
-    description: 'Master the Unchained API ecosystem and integration patterns.',
-    icon: Code,
-    lessons: 4,
-    completedLessons: 0,
-    path: '/module/5/lesson/1',
-    status: 'locked'
-  },
-];
+interface ModuleCardProps {
+  module: typeof modules[0];
+}
 
-function ModuleCard({ module, index }) {
-  const isLocked = module.status === 'locked';
-  const isCompleted = module.completedLessons === module.lessons;
-  const progress = (module.completedLessons / module.lessons) * 100;
+function ModuleCard({ module }: ModuleCardProps) {
+  const isLocked = !module.unlocked;
+  const totalLessons = module.lessons.length || 4; // Default to 4 if no lessons yet
+  const completedLessons = module.lessons.filter(lesson => lesson.completed).length;
+  const isCompleted = completedLessons === totalLessons && totalLessons > 0;
+  const progress = totalLessons > 0 ? (completedLessons / totalLessons) * 100 : 0;
 
   return (
     <div className={`card group transition-all duration-300 ${
@@ -85,7 +44,7 @@ function ModuleCard({ module, index }) {
         <div className="space-y-2">
           <div className="flex items-center justify-between text-sm">
             <span className="text-gray-400">
-              {module.completedLessons} of {module.lessons} lessons completed
+              {completedLessons} of {totalLessons} lessons completed
             </span>
             <span className="text-gray-400">
               {Math.round(progress)}%
@@ -101,7 +60,7 @@ function ModuleCard({ module, index }) {
 
         {/* Action Button */}
         <Link
-          to={module.path}
+          to={module.lessons[0]?.path || `/module/${module.id}/lesson/1`}
           className={`btn w-full ${
             isLocked 
               ? 'btn-secondary cursor-not-allowed' 
@@ -110,7 +69,7 @@ function ModuleCard({ module, index }) {
           onClick={e => isLocked && e.preventDefault()}
         >
           <span className="flex-grow text-center">
-            {isLocked ? 'Locked' : isCompleted ? 'Review Module' : 'Continue Learning'}
+            {isLocked ? 'Coming Soon' : isCompleted ? 'Review Module' : 'Continue Learning'}
           </span>
           <ArrowRight className="w-4 h-4" />
         </Link>
@@ -119,7 +78,11 @@ function ModuleCard({ module, index }) {
   );
 }
 
-export default function HomePage() {
+const HomePage: React.FC = () => {
+  const totalLessons = getTotalLessonsCount();
+  const completedLessons = getCompletedLessonsCount();
+  const progressPercentage = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
+
   return (
     <div className="space-y-12 pb-12">
       {/* Hero Section */}
@@ -152,13 +115,13 @@ export default function HomePage() {
           <div className="space-y-1">
             <h2 className="text-2xl font-bold">Your Progress</h2>
             <p className="text-gray-400">
-              You've completed 1 of 20 lessons (5%)
+              You've completed {completedLessons} of {totalLessons} lessons ({progressPercentage}%)
             </p>
           </div>
           <div className="flex items-center space-x-4">
             <div className="text-right">
               <div className="text-sm text-gray-400">Overall Progress</div>
-              <div className="text-2xl font-bold text-primary">5%</div>
+              <div className="text-2xl font-bold text-primary">{progressPercentage}%</div>
             </div>
             <div className="h-12 w-12 rounded-full border-4 border-primary/30 border-t-primary animate-spin" />
           </div>
@@ -169,8 +132,8 @@ export default function HomePage() {
       <section className="space-y-6">
         <h2 className="text-2xl font-bold">Course Modules</h2>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {modules.map((module, index) => (
-            <ModuleCard key={index} module={module} index={index} />
+          {modules.map((module) => (
+            <ModuleCard key={module.id} module={module} />
           ))}
         </div>
       </section>
@@ -194,4 +157,6 @@ export default function HomePage() {
       </section>
     </div>
   );
-}
+};
+
+export default HomePage;

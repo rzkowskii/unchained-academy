@@ -1,8 +1,26 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Link, useParams, useLocation } from 'react-router-dom';
-import { ChevronDown, ChevronRight, BookOpen, Server, Network, Shield, Code, CheckCircle } from 'lucide-react';
+import { Link, useParams } from 'react-router-dom';
+import { ChevronDown, ChevronRight, BookOpen, Server, Network, Shield, Code, CheckCircle, LucideIcon } from 'lucide-react';
 
-const modules = [
+interface Lesson {
+  title: string;
+  path: string;
+  duration: number;
+}
+
+interface Module {
+  title: string;
+  description: string;
+  icon: LucideIcon;
+  lessons: Lesson[];
+}
+
+interface ModuleNavigatorProps {
+  isMobile?: boolean;
+  onNavigate?: () => void;
+}
+
+const modules: Module[] = [
   {
     title: 'Introduction to Kenshi and Unchained',
     description: 'Learn the fundamentals of the Kenshi ecosystem and Unchained network architecture.',
@@ -30,21 +48,67 @@ const modules = [
       }
     ]
   },
-  // ... other modules remain the same
+  {
+    title: 'Setting Up and Running Nodes',
+    description: 'Learn how to set up and operate different types of nodes in the Unchained network.',
+    icon: Server,
+    lessons: [
+      {
+        title: 'Hardware and Software Requirements',
+        path: '/module/2/lesson/1',
+        duration: 25,
+      }
+    ]
+  },
+  {
+    title: 'Network Operations',
+    description: 'Master the operational aspects of running nodes in the Unchained network.',
+    icon: Network,
+    lessons: [
+      {
+        title: 'Coming Soon',
+        path: '/module/3/lesson/1',
+        duration: 0,
+      }
+    ]
+  },
+  {
+    title: 'Security Best Practices',
+    description: 'Learn essential security practices for node operation and network participation.',
+    icon: Shield,
+    lessons: [
+      {
+        title: 'Coming Soon',
+        path: '/module/4/lesson/1',
+        duration: 0,
+      }
+    ]
+  },
+  {
+    title: 'Advanced Topics',
+    description: 'Explore advanced concepts and techniques in the Unchained network.',
+    icon: Code,
+    lessons: [
+      {
+        title: 'Coming Soon',
+        path: '/module/5/lesson/1',
+        duration: 0,
+      }
+    ]
+  }
 ];
 
-export default function ModuleNavigator({ isMobile = false, onNavigate }) {
-  const [expandedModule, setExpandedModule] = useState(null);
-  const [completedLessons, setCompletedLessons] = useState({});
-  const { moduleId, lessonId } = useParams();
-  const location = useLocation();
+export default function ModuleNavigator({ isMobile = false, onNavigate }: ModuleNavigatorProps) {
+  const [expandedModule, setExpandedModule] = useState<number | null>(null);
+  const [completedLessons, setCompletedLessons] = useState<Record<string, boolean>>({});
+  const { moduleId, lessonId } = useParams<{ moduleId: string; lessonId: string }>();
 
   // Load completed lessons from localStorage
   useEffect(() => {
     const loadCompletedLessons = () => {
-      const completed = {};
+      const completed: Record<string, boolean> = {};
       modules.forEach((module, moduleIndex) => {
-        module.lessons.forEach((lesson, lessonIndex) => {
+        module.lessons.forEach((_lesson, lessonIndex) => {
           const key = `complete-${moduleIndex + 1}-${lessonIndex + 1}`;
           if (localStorage.getItem(key) === 'true') {
             completed[key] = true;
@@ -67,7 +131,7 @@ export default function ModuleNavigator({ isMobile = false, onNavigate }) {
   }, [moduleId]);
 
   // Keyboard navigation
-  const handleKeyDown = useCallback((event, moduleIndex, lessonIndex) => {
+  const handleKeyDown = useCallback((event: React.KeyboardEvent, moduleIndex: number, lessonIndex?: number) => {
     switch (event.key) {
       case 'Enter':
       case ' ':
@@ -78,22 +142,22 @@ export default function ModuleNavigator({ isMobile = false, onNavigate }) {
         break;
       case 'ArrowDown':
         event.preventDefault();
-        if (expandedModule === moduleIndex && lessonIndex < modules[moduleIndex].lessons.length - 1) {
+        if (expandedModule === moduleIndex && lessonIndex !== undefined && lessonIndex < modules[moduleIndex].lessons.length - 1) {
           const nextLesson = document.querySelector(`[data-lesson="${moduleIndex}-${lessonIndex + 1}"]`);
-          nextLesson?.focus();
+          (nextLesson as HTMLElement)?.focus();
         }
         break;
       case 'ArrowUp':
         event.preventDefault();
-        if (expandedModule === moduleIndex && lessonIndex > 0) {
+        if (expandedModule === moduleIndex && lessonIndex !== undefined && lessonIndex > 0) {
           const prevLesson = document.querySelector(`[data-lesson="${moduleIndex}-${lessonIndex - 1}"]`);
-          prevLesson?.focus();
+          (prevLesson as HTMLElement)?.focus();
         }
         break;
     }
   }, [expandedModule]);
 
-  const renderModule = (module, moduleIndex) => {
+  const renderModule = (module: Module, moduleIndex: number) => {
     const isCurrentModule = moduleId === (moduleIndex + 1).toString();
     const moduleProgress = module.lessons.filter((_, lessonIndex) => 
       completedLessons[`complete-${moduleIndex + 1}-${lessonIndex + 1}`]
