@@ -52,10 +52,7 @@ export default function Header() {
             )}
 
             {/* Profile Section */}
-            <div className="hidden lg:flex items-center space-x-4">
-              <button className="btn btn-primary">
-                Get Started
-              </button>
+            <div className="hidden lg:flex items-center">
               <button className="p-2 rounded-full hover:bg-surface-dark transition-colors">
                 <User className="w-6 h-6 text-gray-300" />
               </button>
@@ -119,13 +116,6 @@ export default function Header() {
                 </div>
               </div>
             )}
-
-            {/* Mobile Actions */}
-            <div className="mt-4 pt-4 border-t border-gray-800">
-              <button className="btn btn-primary w-full">
-                Get Started
-              </button>
-            </div>
           </div>
         )}
       </nav>

@@ -136,7 +136,7 @@ export default function HomePage() {
             Start Learning
           </Link>
           <a 
-            href="https://github.com/kenshi-token" 
+            href="https://github.com/rzkowskii/unchained-academy" 
             target="_blank" 
             rel="noopener noreferrer"
             className="btn btn-secondary"

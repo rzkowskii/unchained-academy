@@ -7,6 +7,8 @@ import Layout from './components/layout/Layout';
 const HomePage = lazy(() => import('./pages/HomePage'));
 const Module1Lesson1 = lazy(() => import('./components/lessons/Module1Lesson1'));
 const Module1Lesson2 = lazy(() => import('./components/lessons/Module1Lesson2'));
+const Module1Lesson3 = lazy(() => import('./components/lessons/Module1Lesson3'));
+const Module1Lesson4 = lazy(() => import('./components/lessons/Module1Lesson4'));
 
 // Error Boundary Component
 function ErrorBoundary({ children }) {
@@ -92,6 +94,8 @@ function AppContent() {
           <Route path="/" element={<HomePage />} />
           <Route path="/module/1/lesson/1" element={<Module1Lesson1 />} />
           <Route path="/module/1/lesson/2" element={<Module1Lesson2 />} />
+          <Route path="/module/1/lesson/3" element={<Module1Lesson3 />} />
+          <Route path="/module/1/lesson/4" element={<Module1Lesson4 />} />
           <Route path="/module/1/lesson/:lessonId" element={<ComingSoon />} />
           <Route path="/module/:moduleId/*" element={<ComingSoon />} />
           <Route path="/404" element={<NotFound />} />

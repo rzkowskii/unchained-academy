@@ -21,7 +21,7 @@ export default function Footer() {
     social: [
       {
         name: 'GitHub',
-        href: 'https://github.com/unchained-network',
+        href: 'https://github.com/rzkowskii/unchained-academy',
         icon: Github,
       },
       {
