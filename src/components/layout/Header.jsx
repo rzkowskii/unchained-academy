@@ -1,8 +1,12 @@
-import { Menu, X, BookOpen, Code, Activity, User } from 'lucide-react';
+import { Menu, X, BookOpen, Code, Activity, User, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
+import { useLocation, Link } from 'react-router-dom';
+import ModuleNavigator from './ModuleNavigator';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+  const isLessonPage = location.pathname.includes('/module/');
 
   const navigation = [
     { name: 'Tutorials', href: '/tutorials', icon: BookOpen },
@@ -15,26 +19,38 @@ export default function Header() {
       <nav className="container py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-8">
-            <a href="/" className="text-2xl font-bold text-primary">
+            <Link to="/" className="text-2xl font-bold text-primary">
               Unchained Academy
-            </a>
+            </Link>
             
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center space-x-8">
               {navigation.map((item) => (
-                <a
+                <Link
                   key={item.name}
-                  href={item.href}
+                  to={item.href}
                   className="flex items-center space-x-2 text-gray-300 hover:text-primary transition-colors"
                 >
                   <item.icon className="w-5 h-5" />
                   <span>{item.name}</span>
-                </a>
+                </Link>
               ))}
             </div>
           </div>
 
           <div className="flex items-center space-x-4">
+            {/* Progress Indicator - Desktop */}
+            {isLessonPage && (
+              <div className="hidden lg:block">
+                <div className="flex items-center space-x-2">
+                  <div className="h-2 w-32 bg-surface-dark rounded-full overflow-hidden">
+                    <div className="h-full bg-primary" style={{ width: '25%' }} />
+                  </div>
+                  <span className="text-sm text-gray-400">25% Complete</span>
+                </div>
+              </div>
+            )}
+
             {/* Profile Section */}
             <div className="hidden lg:flex items-center space-x-4">
               <button className="btn btn-primary">
@@ -63,20 +79,53 @@ export default function Header() {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="lg:hidden mt-4 space-y-4 border-t border-gray-800 pt-4">
-            {navigation.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className="flex items-center space-x-2 text-gray-300 hover:text-primary transition-colors py-2"
-              >
-                <item.icon className="w-5 h-5" />
-                <span>{item.name}</span>
-              </a>
-            ))}
-            <button className="btn btn-primary w-full">
-              Get Started
-            </button>
+          <div className="lg:hidden mt-4 border-t border-gray-800 pt-4">
+            {/* Progress Indicator - Mobile */}
+            {isLessonPage && (
+              <div className="mb-4">
+                <div className="flex items-center space-x-2">
+                  <div className="h-2 flex-grow bg-surface-dark rounded-full overflow-hidden">
+                    <div className="h-full bg-primary" style={{ width: '25%' }} />
+                  </div>
+                  <span className="text-sm text-gray-400">25% Complete</span>
+                </div>
+              </div>
+            )}
+
+            {/* Main Navigation */}
+            <div className="space-y-4">
+              {navigation.map((item) => (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className="flex items-center space-x-2 text-gray-300 hover:text-primary transition-colors py-2"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <item.icon className="w-5 h-5" />
+                  <span>{item.name}</span>
+                </Link>
+              ))}
+            </div>
+
+            {/* Module Navigation on lesson pages */}
+            {isLessonPage && (
+              <div className="mt-4 pt-4 border-t border-gray-800">
+                <div className="mb-2 text-sm font-medium text-gray-400">Current Module</div>
+                <div className="bg-surface-dark rounded-lg">
+                  <ModuleNavigator 
+                    isMobile={true} 
+                    onNavigate={() => setIsMenuOpen(false)}
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Mobile Actions */}
+            <div className="mt-4 pt-4 border-t border-gray-800">
+              <button className="btn btn-primary w-full">
+                Get Started
+              </button>
+            </div>
           </div>
         )}
       </nav>
