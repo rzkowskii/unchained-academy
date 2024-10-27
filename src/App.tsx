@@ -1,4 +1,4 @@
-import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate, Link } from 'react-router-dom';
 import { Suspense, lazy, useState, useEffect, ReactNode } from 'react';
 import { Loader2 } from 'lucide-react';
 import Layout from './components/layout/Layout';
@@ -66,9 +66,9 @@ function NotFound() {
       <div className="text-center space-y-4">
         <h1 className="text-4xl font-bold text-primary">404</h1>
         <p className="text-xl text-gray-400">Page not found</p>
-        <a href="/" className="btn btn-primary inline-block">
+        <Link to="/" className="btn btn-primary inline-block">
           Return Home
-        </a>
+        </Link>
       </div>
     </div>
   );
