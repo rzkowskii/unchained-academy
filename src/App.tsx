@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Suspense, lazy, useState, useEffect, ReactNode } from 'react';
 import { Loader2 } from 'lucide-react';
 import Layout from './components/layout/Layout';
