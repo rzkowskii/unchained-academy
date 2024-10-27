@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background text-gray-100 antialiased;
+  }
+
+  h1 {
+    @apply text-3xl font-bold text-gray-100;
+  }
+
+  h2 {
+    @apply text-2xl font-bold text-gray-100;
+  }
+
+  h3 {
+    @apply text-xl font-bold text-gray-200;
+  }
+
+  a {
+    @apply text-primary hover:text-primary-light transition-colors;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium transition-all;
+  }
+  
+  .btn-primary {
+    @apply bg-primary hover:bg-primary-dark text-white shadow-sm hover:shadow-md;
+  }
+
+  .btn-secondary {
+    @apply bg-surface hover:bg-surface-light text-gray-200 border border-gray-700;
+  }
+
+  .card {
+    @apply bg-surface rounded-lg p-6 shadow-lg border border-gray-800;
+  }
+
+  /* Academy-specific components */
+  .lesson-content {
+    @apply prose prose-invert max-w-none prose-headings:text-gray-100 prose-p:text-gray-300 
+           prose-a:text-primary prose-a:no-underline hover:prose-a:text-primary-light
+           prose-code:text-primary-light prose-pre:bg-surface-dark;
+  }
+
+  .code-block {
+    @apply bg-surface-dark rounded-lg p-4 font-mono text-sm text-gray-300 overflow-x-auto;
+  }
+
+  .interactive-demo {
+    @apply border border-gray-800 rounded-lg bg-surface-dark p-6;
+  }
+
+  .progress-bar {
+    @apply h-2 bg-surface-light rounded-full overflow-hidden;
+  }
+
+  .progress-bar-fill {
+    @apply h-full bg-primary transition-all duration-300;
+  }
+
+  .nav-link {
+    @apply flex items-center space-x-2 text-gray-300 hover:text-primary transition-colors py-2 px-3 rounded-lg
+           hover:bg-surface-dark;
+  }
+
+  .nav-link.active {
+    @apply text-primary bg-surface-dark;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hidden {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
+}
