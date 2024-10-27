@@ -109,7 +109,7 @@ function AppContent() {
 // Main App Component
 export default function App() {
   return (
-    <Router>
+    <Router basename="/unchained-academy">
       <ErrorBoundary>
         <AppContent />
       </ErrorBoundary>
