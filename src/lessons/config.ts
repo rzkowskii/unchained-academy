@@ -83,6 +83,22 @@ export const modules: Module[] = [
         path: createLessonPath('2', '1'),
         component: lazy(() => import('../components/lessons/Module2Lesson1')),
         unlocked: true
+      },
+      {
+        id: '2.2',
+        title: 'Unchained Client Installation',
+        description: 'Learn how to install and configure the Unchained client on different operating systems.',
+        path: createLessonPath('2', '2'),
+        component: lazy(() => import('../components/lessons/Module2Lesson2')),
+        unlocked: true
+      },
+      {
+        id: '2.3',
+        title: 'Understanding Node Types',
+        description: 'Learn about the different types of nodes and their roles in the Unchained Network.',
+        path: createLessonPath('2', '3'),
+        component: lazy(() => import('../components/lessons/Module2Lesson3')),
+        unlocked: true
       }
     ]
   },
@@ -314,24 +330,3 @@ export const getTotalLessonsCount = () =>
 
 export const getCompletedLessonsCount = () =>
   getAllLessons().filter(lesson => lesson.completed).length;
-
-// Instructions for adding a new lesson:
-/*
-To add a new lesson:
-
-1. Create a new lesson component in src/components/lessons/ following the naming convention:
-   Module{moduleId}Lesson{lessonNumber}.tsx
-
-2. Add the lesson to the appropriate module in the modules array above:
-
-   {
-     id: '{moduleId}.{lessonNumber}',
-     title: 'Lesson Title',
-     description: 'Lesson Description',
-     path: createLessonPath('{moduleId}', '{lessonNumber}'),
-     component: lazy(() => import('../components/lessons/Module{moduleId}Lesson{lessonNumber}')),
-     unlocked: true
-   }
-
-3. The routing will be automatically handled by App.tsx
-*/

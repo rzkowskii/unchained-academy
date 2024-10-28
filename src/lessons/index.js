@@ -3,6 +3,7 @@ import Module1Lesson2 from '../components/lessons/Module1Lesson2';
 import Module1Lesson3 from '../components/lessons/Module1Lesson3';
 import Module1Lesson4 from '../components/lessons/Module1Lesson4';
 import Module2Lesson1 from '../components/lessons/Module2Lesson1';
+import Module2Lesson2 from '../components/lessons/Module2Lesson2';
 
 export const modules = [
   {
@@ -42,6 +43,12 @@ export const modules = [
         title: 'Hardware and Software Requirements',
         path: '/module2/lesson1',
         component: Module2Lesson1,
+        unlocked: true
+      },
+      {
+        title: 'Unchained Client Installation',
+        path: '/module2/lesson2',
+        component: Module2Lesson2,
         unlocked: true
       }
     ],
