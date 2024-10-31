@@ -1,1 +1,0 @@
-import{j as e}from"./index-CVz114jN.js";import{L as t}from"./LessonTemplate-zdm0Hyf7.js";const r=()=>e.jsx(t,{title:"DApp Architecture",description:"Understanding DApp architecture and components",content:e.jsx("div",{children:e.jsx("p",{children:"Placeholder content for Module 5 Lesson 1"})})});export{r as default};

@@ -1,1 +1,0 @@
-import{j as e}from"./index-CVz114jN.js";import{L as o}from"./LessonTemplate-zdm0Hyf7.js";const s=()=>e.jsx(o,{title:"Advanced Concepts",description:"Advanced blockchain development topics",content:e.jsx("div",{children:e.jsx("p",{children:"Placeholder content for Module 8 Lesson 1"})})});export{s as default};

@@ -1,4 +1,4 @@
-import{j as e}from"./index-CVz114jN.js";import{L as n}from"./LessonContent-BX53Ggud.js";const a=()=>{const s=[{title:"Development Environment Setup",code:`# Required software versions
+import{j as e}from"./index-CNhVifHg.js";import{L as n}from"./LessonContent-B2obYQ4_.js";const a=()=>{const s=[{title:"Development Environment Setup",code:`# Required software versions
 node >= 18.0.0
 docker >= 20.10.0
 git >= 2.30.0

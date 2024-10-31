@@ -1,0 +1,1 @@
+import{j as t}from"./index-CNhVifHg.js";import{L as o}from"./LessonTemplate-TyfY1VT1.js";const n=()=>t.jsx(o,{title:"Smart Contract Basics",description:"Introduction to smart contract development",content:t.jsx("div",{children:t.jsx("p",{children:"Placeholder content for Module 4 Lesson 1"})})});export{n as default};

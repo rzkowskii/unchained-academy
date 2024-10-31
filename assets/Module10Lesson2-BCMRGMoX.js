@@ -1,4 +1,4 @@
-import{j as e}from"./index-CVz114jN.js";import{L as s}from"./LessonContent-BX53Ggud.js";const r=()=>{const i=[{title:"Node Configuration",code:`{
+import{j as e}from"./index-CNhVifHg.js";import{L as s}from"./LessonContent-B2obYQ4_.js";const r=()=>{const i=[{title:"Node Configuration",code:`{
   "nodes": [
     {
       "id": "node-1",

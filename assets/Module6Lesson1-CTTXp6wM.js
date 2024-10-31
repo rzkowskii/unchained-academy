@@ -1,1 +1,0 @@
-import{j as o}from"./index-CVz114jN.js";import{L as e}from"./LessonTemplate-zdm0Hyf7.js";const s=()=>o.jsx(e,{title:"Network Components",description:"Core components of blockchain networks",content:o.jsx("div",{children:o.jsx("p",{children:"Placeholder content for Module 6 Lesson 1"})})});export{s as default};
