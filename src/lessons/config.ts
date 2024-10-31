@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import { LucideIcon, BookOpen, Server, Network, Shield, Code, Cpu, Database, Globe } from 'lucide-react';
+import { LucideIcon, BookOpen, Server, Network, Shield, Code, Cpu, Database, Globe, Brain, Cog } from 'lucide-react';
 
 // Types
 export interface Lesson {
@@ -29,222 +29,137 @@ const createLessonPath = (moduleId: string, lessonId: string) =>
 export const modules: Module[] = [
   {
     id: '1',
-    title: 'Introduction to Kenshi and Unchained',
-    description: 'Learn the fundamentals of the Kenshi ecosystem and Unchained network architecture.',
+    title: 'Getting Started',
+    description: 'Introduction to blockchain development fundamentals',
     icon: BookOpen,
     unlocked: true,
     lessons: [
       {
         id: '1.1',
-        title: 'What is Unchained Network?',
-        description: 'Introduction to the Unchained Network and its core concepts.',
+        title: 'Welcome to Unchained Academy',
+        description: 'Your first step into blockchain development',
         path: createLessonPath('1', '1'),
         component: lazy(() => import('../components/lessons/Module1Lesson1')),
         unlocked: true,
         completed: true
-      },
-      {
-        id: '1.2',
-        title: 'Core Concepts and Architecture',
-        description: 'Understanding the fundamental architecture and concepts.',
-        path: createLessonPath('1', '2'),
-        component: lazy(() => import('../components/lessons/Module1Lesson2')),
-        unlocked: true
-      },
-      {
-        id: '1.3',
-        title: 'Network Participants and Roles',
-        description: 'Learn about different participants and their roles in the network.',
-        path: createLessonPath('1', '3'),
-        component: lazy(() => import('../components/lessons/Module1Lesson3')),
-        unlocked: true
-      },
-      {
-        id: '1.4',
-        title: 'Getting Started with Unchained',
-        description: 'Your first steps into the Unchained ecosystem.',
-        path: createLessonPath('1', '4'),
-        component: lazy(() => import('../components/lessons/Module1Lesson4')),
-        unlocked: true
       }
     ]
   },
   {
     id: '2',
-    title: 'Setting Up and Running Nodes',
-    description: 'Master the process of setting up and maintaining Unchained network nodes.',
-    icon: Server,
+    title: 'Development Environment',
+    description: 'Setting up your blockchain development environment',
+    icon: Cog,
     unlocked: true,
     lessons: [
       {
         id: '2.1',
-        title: 'Hardware and Software Requirements',
-        description: 'Learn about the requirements for running an Unchained node.',
+        title: 'Development Tools Setup',
+        description: 'Essential tools for blockchain development',
         path: createLessonPath('2', '1'),
         component: lazy(() => import('../components/lessons/Module2Lesson1')),
-        unlocked: true
-      },
-      {
-        id: '2.2',
-        title: 'Unchained Client Installation',
-        description: 'Learn how to install and configure the Unchained client on different operating systems.',
-        path: createLessonPath('2', '2'),
-        component: lazy(() => import('../components/lessons/Module2Lesson2')),
-        unlocked: true
-      },
-      {
-        id: '2.3',
-        title: 'Understanding Node Types',
-        description: 'Learn about the different types of nodes and their roles in the Unchained Network.',
-        path: createLessonPath('2', '3'),
-        component: lazy(() => import('../components/lessons/Module2Lesson3')),
         unlocked: true
       }
     ]
   },
   {
     id: '3',
-    title: 'Understanding Node Types',
-    description: 'Deep dive into different node types and their roles in the network.',
-    icon: Network,
+    title: 'Blockchain Fundamentals',
+    description: 'Core concepts and principles of blockchain technology',
+    icon: Brain,
     unlocked: true,
-    lessons: []
+    lessons: [
+      {
+        id: '3.1',
+        title: 'Understanding Blockchain',
+        description: 'Introduction to blockchain technology',
+        path: createLessonPath('3', '1'),
+        component: lazy(() => import('../components/lessons/Module3Lesson1')),
+        unlocked: true
+      }
+    ]
   },
   {
     id: '4',
-    title: 'Data Validation in Unchained',
-    description: 'Learn about data validation mechanisms and BLS12-381 implementation.',
-    icon: Shield,
+    title: 'Smart Contract Development',
+    description: 'Learn to write and deploy smart contracts',
+    icon: Code,
     unlocked: true,
-    lessons: []
+    lessons: [
+      {
+        id: '4.1',
+        title: 'Smart Contract Basics',
+        description: 'Introduction to smart contract development',
+        path: createLessonPath('4', '1'),
+        component: lazy(() => import('../components/lessons/Module4Lesson1')),
+        unlocked: true
+      }
+    ]
   },
   {
     id: '5',
-    title: 'Leveraging Unchained APIs',
-    description: 'Master the Unchained API ecosystem and integration patterns.',
-    icon: Code,
+    title: 'Decentralized Applications',
+    description: 'Building full-stack decentralized applications',
+    icon: Globe,
     unlocked: true,
-    lessons: []
+    lessons: [
+      {
+        id: '5.1',
+        title: 'DApp Architecture',
+        description: 'Understanding DApp architecture and components',
+        path: createLessonPath('5', '1'),
+        component: lazy(() => import('../components/lessons/Module5Lesson1')),
+        unlocked: true
+      }
+    ]
   },
   {
     id: '6',
-    title: 'AI Node Operations',
-    description: 'Learn advanced AI operations and optimizations for node management.',
-    icon: Cpu,
+    title: 'Network Architecture',
+    description: 'Understanding blockchain network architecture',
+    icon: Network,
     unlocked: true,
     lessons: [
       {
         id: '6.1',
-        title: 'Detailed AI plugin configuration',
-        description: 'Configure and optimize AI plugins for node operations.',
+        title: 'Network Components',
+        description: 'Core components of blockchain networks',
         path: createLessonPath('6', '1'),
-        component: lazy(() => import('../components/lessons/LessonTemplate')),
-        unlocked: true
-      },
-      {
-        id: '6.2',
-        title: 'Managing AI models and resources',
-        description: 'Learn to effectively manage AI models and system resources.',
-        path: createLessonPath('6', '2'),
-        component: lazy(() => import('../components/lessons/LessonTemplate')),
-        unlocked: true
-      },
-      {
-        id: '6.3',
-        title: 'GPU optimization for AI workloads',
-        description: 'Optimize GPU usage for AI-related node operations.',
-        path: createLessonPath('6', '3'),
-        component: lazy(() => import('../components/lessons/LessonTemplate')),
-        unlocked: true
-      },
-      {
-        id: '6.4',
-        title: 'AI task validation and processing',
-        description: 'Implement and validate AI task processing workflows.',
-        path: createLessonPath('6', '4'),
-        component: lazy(() => import('../components/lessons/LessonTemplate')),
+        component: lazy(() => import('../components/lessons/Module6Lesson1')),
         unlocked: true
       }
     ]
   },
   {
     id: '7',
-    title: 'Advanced Data Indexing',
-    description: 'Master advanced data indexing techniques and query optimization.',
-    icon: Database,
+    title: 'Consensus Mechanisms',
+    description: 'Deep dive into blockchain consensus mechanisms',
+    icon: Shield,
     unlocked: true,
     lessons: [
       {
         id: '7.1',
-        title: 'Deep Index Sync implementation',
-        description: 'Implement and manage deep index synchronization.',
+        title: 'Understanding Consensus',
+        description: 'Introduction to blockchain consensus',
         path: createLessonPath('7', '1'),
-        component: lazy(() => import('../components/lessons/LessonTemplate')),
-        unlocked: true
-      },
-      {
-        id: '7.2',
-        title: 'GraphQL query optimization',
-        description: 'Optimize GraphQL queries for better performance.',
-        path: createLessonPath('7', '2'),
-        component: lazy(() => import('../components/lessons/LessonTemplate')),
-        unlocked: true
-      },
-      {
-        id: '7.3',
-        title: 'MQL (MongoDB Query Language) usage',
-        description: 'Master MongoDB Query Language for efficient data retrieval.',
-        path: createLessonPath('7', '3'),
-        component: lazy(() => import('../components/lessons/LessonTemplate')),
-        unlocked: true
-      },
-      {
-        id: '7.4',
-        title: 'Reverse API configuration',
-        description: 'Configure and implement reverse API functionality.',
-        path: createLessonPath('7', '4'),
-        component: lazy(() => import('../components/lessons/LessonTemplate')),
+        component: lazy(() => import('../components/lessons/Module7Lesson1')),
         unlocked: true
       }
     ]
   },
   {
     id: '8',
-    title: 'Federation Patterns',
-    description: 'Learn advanced federation patterns and network optimization techniques.',
-    icon: Globe,
+    title: 'Advanced Topics',
+    description: 'Advanced blockchain development concepts',
+    icon: Cpu,
     unlocked: true,
     lessons: [
       {
         id: '8.1',
-        title: 'Private network deployment',
-        description: 'Deploy and manage private federated networks.',
+        title: 'Advanced Concepts',
+        description: 'Advanced blockchain development topics',
         path: createLessonPath('8', '1'),
-        component: lazy(() => import('../components/lessons/LessonTemplate')),
-        unlocked: true
-      },
-      {
-        id: '8.2',
-        title: 'Custom ruleset implementation',
-        description: 'Implement custom rulesets for federation.',
-        path: createLessonPath('8', '2'),
-        component: lazy(() => import('../components/lessons/LessonTemplate')),
-        unlocked: true
-      },
-      {
-        id: '8.3',
-        title: 'Network topology optimization',
-        description: 'Optimize network topology for better performance.',
-        path: createLessonPath('8', '3'),
-        component: lazy(() => import('../components/lessons/LessonTemplate')),
-        unlocked: true
-      },
-      {
-        id: '8.4',
-        title: 'Federation security practices',
-        description: 'Implement security best practices for federation.',
-        path: createLessonPath('8', '4'),
-        component: lazy(() => import('../components/lessons/LessonTemplate')),
+        component: lazy(() => import('../components/lessons/Module8Lesson1')),
         unlocked: true
       }
     ]
@@ -252,48 +167,48 @@ export const modules: Module[] = [
   {
     id: '10',
     title: 'Lab Exercise - Build an Unchained Swarm',
-    description: 'Hands-on lab for building and managing an Unchained node swarm.',
-    icon: Network,
+    description: 'Hands-on lab for building and managing an Unchained node swarm',
+    icon: Server,
     unlocked: true,
     lessons: [
       {
         id: '10.1',
         title: 'Lab Part 1: Introduction and Environment Preparation',
-        description: 'Set up your development environment for building an Unchained swarm.',
+        description: 'Set up your development environment for building an Unchained swarm',
         path: createLessonPath('10', '1'),
-        component: lazy(() => import('../components/lessons/LessonTemplate')),
+        component: lazy(() => import('../components/lessons/Module10Lesson1')),
         unlocked: true
       },
       {
         id: '10.2',
         title: 'Lab Part 2: Configuring Each Node',
-        description: 'Learn to configure individual nodes for swarm participation.',
+        description: 'Learn to configure individual nodes for swarm participation',
         path: createLessonPath('10', '2'),
-        component: lazy(() => import('../components/lessons/LessonTemplate')),
+        component: lazy(() => import('../components/lessons/Module10Lesson2')),
         unlocked: true
       },
       {
         id: '10.3',
         title: 'Lab Part 3: Starting and Managing Nodes',
-        description: 'Start your swarm and manage node operations effectively.',
+        description: 'Start your swarm and manage node operations effectively',
         path: createLessonPath('10', '3'),
-        component: lazy(() => import('../components/lessons/LessonTemplate')),
+        component: lazy(() => import('../components/lessons/Module10Lesson3')),
         unlocked: true
       },
       {
         id: '10.4',
         title: 'Lab Part 4: Maintenance and Scaling',
-        description: 'Maintain and scale your Unchained swarm deployment.',
+        description: 'Maintain and scale your Unchained swarm deployment',
         path: createLessonPath('10', '4'),
-        component: lazy(() => import('../components/lessons/LessonTemplate')),
+        component: lazy(() => import('../components/lessons/Module10Lesson4')),
         unlocked: true
       },
       {
         id: '10.5',
         title: 'Lab Part 5: Post-Deployment Insights',
-        description: 'Analyze and optimize your swarm deployment.',
+        description: 'Analyze and optimize your swarm deployment',
         path: createLessonPath('10', '5'),
-        component: lazy(() => import('../components/lessons/LessonTemplate')),
+        component: lazy(() => import('../components/lessons/Module10Lesson5')),
         unlocked: true
       }
     ]

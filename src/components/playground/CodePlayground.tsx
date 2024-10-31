@@ -1,140 +1,120 @@
 import React, { useState } from 'react';
-import { Play, RotateCcw } from 'lucide-react';
+import { motion } from 'framer-motion';
 
-interface CommandResult {
+export interface CommandResult {
+  success: boolean;
   output: string;
   error?: string;
-  timestamp: number;
 }
 
-interface CodePlaygroundProps {
-  initialCode?: string;
-  language?: string;
-  title?: string;
-  description?: string;
-  validation?: (code: string) => { isValid: boolean; message?: string };
+export interface CodePlaygroundProps {
+  code: string;
+  language: string;
+  readOnly?: boolean;
   onRun?: (code: string) => Promise<CommandResult>;
 }
 
 const CodePlayground: React.FC<CodePlaygroundProps> = ({
-  initialCode = '',
-  language = 'javascript',
-  title = 'Interactive Code Playground',
-  description = 'Try out the code below:',
-  validation,
+  code: initialCode,
+  language,
+  readOnly = false,
   onRun
 }) => {
-  const [code, setCode] = useState<string>(initialCode);
-  const [output, setOutput] = useState<CommandResult | null>(null);
-  const [isRunning, setIsRunning] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleCodeChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const newCode = e.target.value;
-    setCode(newCode);
-    setError(null);
-
-    if (validation) {
-      const result = validation(newCode);
-      if (!result.isValid) {
-        setError(result.message || 'Invalid code');
-      }
-    }
-  };
-
-  const handleReset = () => {
-    setCode(initialCode);
-    setOutput(null);
-    setError(null);
-  };
+  const [code, setCode] = useState(initialCode);
+  const [output, setOutput] = useState<string>('');
+  const [error, setError] = useState<string>('');
+  const [isRunning, setIsRunning] = useState(false);
 
   const handleRun = async () => {
     if (!onRun) return;
-
+    
     setIsRunning(true);
-    setError(null);
+    setOutput('');
+    setError('');
 
     try {
       const result = await onRun(code);
-      setOutput(result);
+      if (result.success) {
+        setOutput(result.output);
+      } else {
+        setError(result.error || 'An error occurred while running the code');
+      }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      setError(err instanceof Error ? err.message : 'An unexpected error occurred');
     } finally {
       setIsRunning(false);
     }
   };
 
   return (
-    <div className="bg-surface-dark rounded-lg overflow-hidden border border-gray-800">
-      {/* Header */}
-      <div className="p-4 border-b border-gray-800">
-        <h3 className="text-lg font-semibold">{title}</h3>
-        <p className="text-gray-400 text-sm mt-1">{description}</p>
-      </div>
-
-      {/* Code Editor */}
-      <div className="p-4">
-        <div className="relative">
-          <textarea
-            value={code}
-            onChange={handleCodeChange}
-            className="w-full h-48 bg-surface font-mono text-sm p-4 rounded-lg
-                     text-gray-300 focus:outline-none focus:ring-2 focus:ring-primary
-                     resize-none"
-            placeholder="Enter your code here..."
-            spellCheck="false"
-          />
-          <div className="absolute top-2 right-2 space-x-2">
-            <span className="text-xs text-gray-500 bg-surface-dark px-2 py-1 rounded">
-              {language}
-            </span>
-          </div>
+    <motion.div
+      className="rounded-lg overflow-hidden bg-surface-dark"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      {/* Toolbar */}
+      <div className="flex items-center justify-between px-4 py-2 bg-surface border-b border-surface-light">
+        <div className="text-sm text-gray-400">
+          {language}
         </div>
-
-        {/* Error Message */}
-        {error && (
-          <div className="mt-2 text-red-500 text-sm">
-            {error}
-          </div>
-        )}
-
-        {/* Controls */}
-        <div className="mt-4 flex justify-between items-center">
-          <button
-            onClick={handleReset}
-            className="btn btn-secondary btn-sm"
-            disabled={isRunning}
-          >
-            <RotateCcw className="w-4 h-4 mr-2" />
-            Reset
-          </button>
-
+        {!readOnly && onRun && (
           <button
             onClick={handleRun}
-            className="btn btn-primary"
-            disabled={isRunning || !!error || !onRun}
+            disabled={isRunning}
+            className={`
+              px-4 py-1 rounded-md text-sm font-medium
+              ${isRunning
+                ? 'bg-gray-600 cursor-not-allowed'
+                : 'bg-primary hover:bg-primary-light'}
+              transition-colors duration-200
+            `}
           >
-            <Play className="w-4 h-4 mr-2" />
-            {isRunning ? 'Running...' : 'Run Code'}
+            {isRunning ? 'Running...' : 'Run'}
           </button>
-        </div>
+        )}
       </div>
 
-      {/* Output */}
-      {output && (
-        <div className="border-t border-gray-800 p-4">
-          <h4 className="text-sm font-semibold text-gray-400 mb-2">Output:</h4>
-          <pre className="bg-surface p-4 rounded-lg text-sm overflow-x-auto">
-            <code>{output.output}</code>
-          </pre>
-          {output.error && (
-            <div className="mt-2 text-red-500 text-sm">
-              Error: {output.error}
+      {/* Code editor */}
+      <div className="p-4">
+        <textarea
+          value={code}
+          onChange={(e) => !readOnly && setCode(e.target.value)}
+          readOnly={readOnly}
+          className={`
+            w-full h-48 bg-transparent text-white font-mono text-sm
+            resize-none focus:outline-none
+            ${readOnly ? 'cursor-default' : ''}
+          `}
+          style={{
+            lineHeight: '1.5',
+            tabSize: 2
+          }}
+        />
+      </div>
+
+      {/* Output panel */}
+      {(output || error) && (
+        <motion.div
+          className="border-t border-surface-light"
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          transition={{ duration: 0.3 }}
+        >
+          <div className="p-4">
+            <div className="text-sm font-medium mb-2">
+              {error ? 'Error' : 'Output'}
             </div>
-          )}
-        </div>
+            <pre className={`
+              text-sm font-mono whitespace-pre-wrap
+              ${error ? 'text-red-400' : 'text-green-400'}
+            `}>
+              {error || output}
+            </pre>
+          </div>
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   );
 };
 
