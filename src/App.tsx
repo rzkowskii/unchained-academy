@@ -2,63 +2,59 @@ import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import HomePage from './pages/HomePage';
-import { modules } from './lessons/config';
+import Toast from './components/ui/Toast';
+import { useUI } from './context/UIContext';
+import KeyboardShortcuts from './components/ui/KeyboardShortcuts';
+import { SkeletonCard } from './components/ui/Skeleton';
 
-const LoadingSpinner = () => (
-  <div className="flex items-center justify-center min-h-[400px]">
-    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-  </div>
-);
+const ToastContainer = () => {
+  const { toasts, removeToast } = useUI();
+  
+  return (
+    <div className="fixed bottom-4 right-4 z-50">
+      {toasts.map((toast) => (
+        <Toast
+          key={toast.id}
+          message={toast.message}
+          type={toast.type}
+          onClose={() => removeToast(toast.id)}
+        />
+      ))}
+    </div>
+  );
+};
+
+const KeyboardShortcutsModal = () => {
+  const { isKeyboardShortcutsOpen, toggleKeyboardShortcuts } = useUI();
+  return (
+    <KeyboardShortcuts
+      isOpen={isKeyboardShortcutsOpen}
+      onClose={toggleKeyboardShortcuts}
+    />
+  );
+};
 
 const App: React.FC = () => {
   return (
-    <Router basename="/unchained-academy">
-      <Suspense fallback={<LoadingSpinner />}>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Layout>
-                <HomePage />
-              </Layout>
-            }
-          />
-          
-          {/* Generate routes for each lesson */}
-          {modules.map(module =>
-            module.lessons.map(lesson => (
-              <Route
-                key={lesson.path}
-                path={lesson.path}
-                element={
-                  <Layout>
-                    <Suspense fallback={<LoadingSpinner />}>
-                      <lesson.component />
-                    </Suspense>
-                  </Layout>
-                }
-              />
-            ))
-          )}
-
-          {/* 404 route */}
-          <Route
-            path="*"
-            element={
-              <Layout>
-                <div className="text-center py-12">
-                  <h1 className="text-4xl font-bold text-white mb-4">
-                    404 - Page Not Found
-                  </h1>
-                  <p className="text-gray-400">
-                    The page you're looking for doesn't exist.
-                  </p>
-                </div>
-              </Layout>
-            }
-          />
-        </Routes>
-      </Suspense>
+    <Router>
+      <Layout>
+        <Suspense
+          fallback={
+            <div className="p-4 space-y-4">
+              <SkeletonCard />
+              <SkeletonCard />
+              <SkeletonCard />
+            </div>
+          }
+        >
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            {/* Add other routes as needed */}
+          </Routes>
+        </Suspense>
+        <ToastContainer />
+        <KeyboardShortcutsModal />
+      </Layout>
     </Router>
   );
 };
