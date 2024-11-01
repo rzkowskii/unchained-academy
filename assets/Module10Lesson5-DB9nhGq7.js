@@ -1,4 +1,4 @@
-import{j as e}from"./index-CNhVifHg.js";import{L as r}from"./LessonContent-B2obYQ4_.js";const a=()=>{const i=[{title:"Analysis and Optimization Commands",code:`# Performance Analysis
+import{j as e}from"./index-B0IARw92.js";import{L as r}from"./LessonContent-8j15sELS.js";const a=()=>{const i=[{title:"Analysis and Optimization Commands",code:`# Performance Analysis
 # Generate performance report
 npm run swarm:analyze performance
 

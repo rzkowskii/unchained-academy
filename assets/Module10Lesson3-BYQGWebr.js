@@ -1,4 +1,4 @@
-import{j as e}from"./index-CNhVifHg.js";import{L as i}from"./LessonContent-B2obYQ4_.js";const a=()=>{const t=[{title:"Node Management Commands",code:`# Start the swarm
+import{j as e}from"./index-B0IARw92.js";import{L as i}from"./LessonContent-8j15sELS.js";const a=()=>{const t=[{title:"Node Management Commands",code:`# Start the swarm
 npm run swarm:start
 
 # Check node status

@@ -1,4 +1,4 @@
-import{j as e}from"./index-CNhVifHg.js";import{L as s}from"./LessonContent-B2obYQ4_.js";const t=()=>{const a=[{title:"Maintenance and Scaling Commands",code:`# Maintenance commands
+import{j as e}from"./index-B0IARw92.js";import{L as s}from"./LessonContent-8j15sELS.js";const t=()=>{const a=[{title:"Maintenance and Scaling Commands",code:`# Maintenance commands
 # Backup node data
 npm run swarm:backup node-1
 

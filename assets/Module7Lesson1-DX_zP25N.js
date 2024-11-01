@@ -1,1 +1,0 @@
-import{j as n}from"./index-CNhVifHg.js";import{L as o}from"./LessonTemplate-TyfY1VT1.js";const t=()=>n.jsx(o,{title:"Understanding Consensus",description:"Introduction to blockchain consensus",content:n.jsx("div",{children:n.jsx("p",{children:"Placeholder content for Module 7 Lesson 1"})})});export{t as default};
